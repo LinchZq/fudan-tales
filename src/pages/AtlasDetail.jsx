@@ -1,3 +1,4 @@
+import {detailsByCode, defaultDetail} from "../data/card-details";
 import {useEffect, useMemo} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {cards} from "../data/cards";
@@ -22,6 +23,16 @@ export default function AtlasDetail() {
         [code]
     );
 
+    const raw = detailsByCode[entity.code] || {};
+    const detail = {
+        ...defaultDetail,
+        ...raw,
+        decrypt: {...defaultDetail.decrypt, ...(raw.decrypt || {})},
+        photo: {...defaultDetail.photo, ...(raw.photo || {})},
+        supply: {...defaultDetail.supply, ...(raw.supply || {})},
+    };
+
+
     useEffect(() => {
         document.title = entity ? `${entity.title} · 异闻图鉴` : "未找到 · 异闻图鉴";
     }, [entity]);
@@ -44,21 +55,25 @@ export default function AtlasDetail() {
     }
 
     const pct = Math.round(clamp01(entity.progress) * 100);
-    const archiveNo = deriveArchiveNo(entity.code);
+    const archiveNo = detail.archiveNo || deriveArchiveNo(entity.code);
 
     const statusLabel = entity.status === "contained" ? "异常已收容" : "解析中";
     const statusIcon = entity.status === "contained" ? "verified_user" : "query_stats";
 
     // 这块属于示例里的“照片信息/天气/时间/警告”，后面可以做成数据字段
-    const photoTag = `#${entity.zone ? (Array.isArray(entity.zone) ? entity.zone[0] : entity.zone) : "未知区域"}`;
-    const photoMeta = "07:12 AM // 阴";
-    const warningText = "警告：检测到现实扭曲场残留。该异常已被相关部门控制并清除。";
+    // zone 可能是 string / array / undefined
+    const zoneText = Array.isArray(entity.zone)
+        ? entity.zone[0]
+        : entity.zone;
 
-    // 示例里的“特别补给”块，先做成一个默认内容，后面再按 code 配置不同商户内容
-    const supplyTitle = "南区深夜食堂";
-    const supplyDiscountNum = "5";
-    const supplyDiscountUnit = "折";
-    const supplyItem = "兑换物：铁板炒饭 (B级)";
+    // 约定默认格式：#复旦_区域名
+    const fallbackTag = zoneText
+        ? `#复旦_${zoneText}`
+        : defaultDetail.photo.tag;
+
+    const photoTag = detail.photo.tag || fallbackTag;
+    const photoMeta = detail.photo.meta;
+    const warningText = detail.photo.warning;
 
     return (
         <div
@@ -87,7 +102,7 @@ export default function AtlasDetail() {
 
                     <div className="flex items-center gap-2 text-primary">
                         <span className="animate-pulse w-2 h-2 rounded-full bg-primary"/>
-                        <span className="text-xs font-mono">连接中</span>
+                        <span className="text-xs font-mono">{detail.connectionText}</span>
                     </div>
                 </header>
 
@@ -105,7 +120,7 @@ export default function AtlasDetail() {
                             />
                         </div>
                         <p className="text-[#ce8da3] text-xs font-mono uppercase mt-1">
-                            &gt; 正在解析 REM 睡眠数据... 完成。
+                            &gt; {detail.decrypt.hint}
                         </p>
                     </section>
 
@@ -122,7 +137,7 @@ export default function AtlasDetail() {
                                     className="absolute top-4 right-4 z-20 transform rotate-12 opacity-80 mix-blend-overlay">
                                     <div className="stamp-box px-4 py-2">
                                         <span
-                                            className="text-primary font-black text-xl tracking-[0.2em] uppercase">绝密</span>
+                                            className="text-primary font-black text-xl tracking-[0.2em] uppercase">{detail.protocol}</span>
                                     </div>
                                 </div>
 
@@ -133,7 +148,7 @@ export default function AtlasDetail() {
                                         className="aspect-[4/3] bg-gray-900 overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.02]">
                                         <div
                                             className="w-full h-full bg-cover bg-center mix-blend-luminosity contrast-125 brightness-90"
-                                            style={{backgroundImage: `url("${entity.coverUrl}")`}}
+                                            style={{backgroundImage: `url("${detail.photo.imageUrl || entity.coverUrl}")`}}
                                         />
                                         <div
                                             className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-30 mix-blend-color-dodge"/>
@@ -152,7 +167,7 @@ export default function AtlasDetail() {
                                                 <p className="text-[10px] opacity-70 font-mono">{photoMeta}</p>
                                             </div>
                                             <span
-                                                className="material-symbols-outlined text-gray-400 text-sm">qr_code_2</span>
+                                                className="material-symbols-outlined text-gray-400 text-sm">{detail.supply.icon}</span>
                                         </div>
                                         <div className="border-t border-gray-200 mt-2 pt-1">
                                             <p className="text-[9px] text-gray-500 leading-tight">{warningText}</p>
@@ -182,13 +197,13 @@ export default function AtlasDetail() {
                                     />
                                     <div className="flex justify-between items-start">
                                         <div>
-                                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">特别补给</p>
-                                            <h3 className="text-lg font-bold leading-tight mb-1">{supplyTitle}</h3>
+                                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">{detail.supply.typeLabel}</p>
+                                            <h3 className="text-lg font-bold leading-tight mb-1">{detail.supply.title}</h3>
                                             <div className="flex items-baseline gap-1 text-primary font-bold font-mono">
-                                                <span className="text-3xl">{supplyDiscountNum}</span>
-                                                <span className="text-xl">{supplyDiscountUnit}</span>
+                                                <span className="text-3xl">{detail.supply.discountNum}</span>
+                                                <span className="text-xl">{detail.supply.discountUnit}</span>
                                             </div>
-                                            <p className="text-xs text-gray-600 mt-1 font-mono">{supplyItem}</p>
+                                            <p className="text-xs text-gray-600 mt-1 font-mono">{detail.supply.item}</p>
                                         </div>
                                         <div className="border-2 border-gray-900 p-1 rounded-sm">
                                             <span

@@ -1,0 +1,1 @@
+export const zones = ["光华楼区", "相辉堂区", "南区"];

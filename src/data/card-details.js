@@ -1,0 +1,96 @@
+// src/data/details.js
+// key: entity.code，例如 "SCP-FD-082"
+// {
+//   archiveNo?: string,
+//   protocol?: string,
+//   connectionText?: string,
+//   decrypt?: { hint?: string },
+//   photo?: { tag?: string, meta?: string, warning?: string, imageUrl?: string },
+//   supply?: { typeLabel?: string, title?: string, discountNum?: string, discountUnit?: string, item?: string, icon?: string }
+// }
+
+export const detailsByCode = {
+    "SCP-FD-082": {
+        archiveNo: "档案编号 24-10-X", // 顶栏 glitch 文案；不写则用默认 derive
+        protocol: "绝密", // 顶栏左侧；可选
+        connectionText: "连接中", // 顶栏右侧；可选
+
+        decrypt: {
+            hint: " 正在解析 REM 睡眠数据... 完成。", // 进度条下那行
+        },
+
+        photo: {
+            tag: "#复旦_西门",
+            meta: "07:12 AM // 阴",
+            warning:
+                "警告：检测到现实扭曲场残留。该异常已被相关部门控制并清除。",
+            // 可选：给照片单独一张图（不写则用 entity.coverUrl）
+            // imageUrl: "/images/atlas/detail/fd-082-photo.png",
+        },
+
+        supply: {
+            typeLabel: "特别补给",
+            title: "南区深夜食堂",
+            discountNum: "5",
+            discountUnit: "折",
+            item: "兑换物：铁板炒饭 (B级)",
+            icon: "restaurant", // Material Symbols 名称
+        },
+    },
+
+    "SCP-FD-104": {
+        archiveNo: "档案编号 24-11-C",
+        decrypt: {hint: " 正在扫描咖啡因残留... 完成。"},
+        photo: {
+            tag: "#复旦_图书馆",
+            meta: "11:30 PM // 小雨",
+            warning: "警告：检测到自增殖液体。请勿在封闭空间开启容器。",
+        },
+        supply: {
+            typeLabel: "特别补给",
+            title: "学理咖啡",
+            discountNum: "8",
+            discountUnit: "折",
+            item: "兑换物：美式咖啡 (A级)",
+            icon: "local_cafe",
+        },
+    },
+
+    "SCP-FD-299": {
+        archiveNo: "档案编号 24-12-R",
+        decrypt: {hint: " 正在匹配考场噪声指纹... 完成。"},
+        photo: {
+            tag: "#复旦_教室",
+            meta: "02:10 AM // 多云",
+            warning: "警告：疑似存在记忆回响。连续暴露可能导致梦境侵入。",
+        },
+        supply: {
+            typeLabel: "特别补给",
+            title: "夜读自习室",
+            discountNum: "6",
+            discountUnit: "折",
+            item: "兑换物：热牛奶 (B级)",
+            icon: "menu_book",
+        },
+    },
+};
+
+// 可选：统一默认值，防止漏配
+export const defaultDetail = {
+    protocol: "绝密",
+    connectionText: "连接中",
+    decrypt: {hint: " 正在解析 REM 睡眠数据... 完成。"},
+    photo: {
+        tag: "#复旦_未知区域",
+        meta: "??:?? // 未知",
+        warning: "警告：检测到异常信号残留。请勿靠近。",
+    },
+    supply: {
+        typeLabel: "特别补给",
+        title: "未知补给点",
+        discountNum: "?",
+        discountUnit: "折",
+        item: "兑换物：未知",
+        icon: "qr_code_2",
+    },
+};
