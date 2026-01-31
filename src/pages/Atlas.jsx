@@ -8,6 +8,7 @@ const cards = [
         type: "entity",
         code: "SCP-FD-082",
         title: "薛定谔的流浪猫",
+        zone: "光华楼区",
         coverUrl: "/images/atlas/cards/fd-082.png",
         status: "contained",
         progress: 0.75,
@@ -16,6 +17,7 @@ const cards = [
         type: "entity",
         code: "SCP-FD-104",
         title: "无限咖啡",
+        zone: ["光华楼区", "南区"],
         coverUrl: "/images/atlas/cards/fd-104.png",
         status: "contained",
         progress: 1,
@@ -30,6 +32,7 @@ const cards = [
         type: "entity",
         code: "SCP-FD-299",
         title: "考场幽灵",
+        zone: ["光华楼区", "南区"],
         coverUrl: "/images/atlas/cards/fd-299.png",
         status: "analyzing",
         progress: 0.5,
@@ -56,6 +59,11 @@ export default function Atlas() {
 
     const zones = ["光华楼区", "相辉堂区", "南区"];
     const [zone, setZone] = useState(zones[0]);
+    const visibleCards = cards.filter((c) => {
+        if (!c.zone) return true; // 没写 zone：全区可见
+        if (Array.isArray(c.zone)) return c.zone.includes(zone); // 多区
+        return c.zone === zone; // 单区
+    });
 
     return (
         <div
@@ -107,7 +115,11 @@ export default function Atlas() {
             </header>
             <main className="relative z-10 flex-1 overflow-y-auto p-4 scroll-smooth">
                 <div className="grid grid-cols-2 gap-4 pb-24">
-                    {cards.map((c) => {
+                    {visibleCards.length === 0 ? (
+                        <div className="col-span-2 text-center text-text-dim text-sm py-10">
+                            当前区域暂无收录条目
+                        </div>
+                    ) : (visibleCards.map((c) => {
                         if (c.type === "locked") {
                             return (
                                 <LockedCard
@@ -128,7 +140,7 @@ export default function Atlas() {
                                 progress={c.progress}
                             />
                         );
-                    })}
+                    }))}
                 </div>
                 <div className="fixed bottom-24 right-4 z-40">
                     <button
