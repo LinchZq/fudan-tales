@@ -4,6 +4,7 @@ export default function EntityCard({
                                        coverUrl,
                                        status = "contained", // "contained" | "analyzing"
                                        progress = 1, // 0~1
+                                       onClick,
                                    }) {
     const isAnalyzing = status === "analyzing";
 
@@ -19,7 +20,17 @@ export default function EntityCard({
 
     return (
         <div
-            className="glass-card rounded-lg overflow-hidden group relative hover:border-primary/50 transition-all duration-300">
+            onClick={onClick}
+            role={onClick ? "button" : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={(e) => {
+                if (!onClick) return;
+                if (e.key === "Enter") onClick();
+            }}
+            className={[
+                "glass-card rounded-lg overflow-hidden group relative hover:border-primary/50 transition-all duration-300",
+                onClick ? "cursor-pointer" : "",
+            ].join(" ")}>
             <div
                 className={[
                     "absolute top-2 right-2 z-20 flex items-center gap-1 bg-black/60 backdrop-blur px-1.5 py-0.5 rounded border",

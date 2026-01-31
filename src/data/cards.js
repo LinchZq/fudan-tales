@@ -1,0 +1,47 @@
+export const cards = [
+    {
+        type: "entity",
+        code: "SCP-FD-082",
+        title: "薛定谔的流浪猫",
+        zone: "光华楼区",
+        coverUrl: "/images/atlas/cards/fd-082.png",
+        status: "contained",
+        progress: 0.75,
+    },
+    {
+        type: "entity",
+        code: "SCP-FD-104",
+        title: "无限咖啡",
+        zone: ["光华楼区", "南区"],
+        coverUrl: "/images/atlas/cards/fd-104.png",
+        status: "contained",
+        progress: 1,
+    },
+    {
+        type: "locked",
+        id: "locked-1",
+        requiredLevel: 5,
+        coverUrl: "/images/atlas/cards/fd-unknown.png",
+    },
+    {
+        type: "entity",
+        code: "SCP-FD-299",
+        title: "考场幽灵",
+        zone: ["光华楼区", "南区"],
+        coverUrl: "/images/atlas/cards/fd-299.png",
+        status: "analyzing",
+        progress: 0.5,
+    },
+    {
+        type: "locked",
+        id: "locked-2",
+        requiredLevel: 10,
+        coverUrl: "/images/atlas/cards/fd-unknown-1.png",
+    },
+    {
+        type: "locked",
+        id: "locked-3",
+        requiredLevel: 15,
+        coverUrl: "/images/atlas/cards/fd-unknown-2.png",
+    },
+];

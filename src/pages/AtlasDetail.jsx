@@ -1,0 +1,226 @@
+import {useEffect, useMemo} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {cards} from "../data/cards";
+
+function clamp01(x) {
+    return Math.max(0, Math.min(1, x));
+}
+
+function deriveArchiveNo(code) {
+    // 暂时用 code 的后缀展示
+    // SCP-FD-082 -> 档案编号 082
+    const m = String(code || "").match(/(\d+)\s*$/);
+    return m ? `档案编号 ${m[1]}` : `档案编号 ${code || "UNKNOWN"}`;
+}
+
+export default function AtlasDetail() {
+    const {code} = useParams();
+    const navigate = useNavigate();
+
+    const entity = useMemo(
+        () => cards.find((c) => c.type === "entity" && c.code === code),
+        [code]
+    );
+
+    useEffect(() => {
+        document.title = entity ? `${entity.title} · 异闻图鉴` : "未找到 · 异闻图鉴";
+    }, [entity]);
+
+    if (!entity) {
+        return (
+            <div className="min-h-screen bg-background-dark text-white">
+                <div className="max-w-md mx-auto p-4">
+                    <button
+                        type="button"
+                        onClick={() => navigate("/atlas")}
+                        className="text-primary font-bold"
+                    >
+                        返回图鉴
+                    </button>
+                    <div className="mt-6 text-text-dim text-sm">条目不存在或未收录</div>
+                </div>
+            </div>
+        );
+    }
+
+    const pct = Math.round(clamp01(entity.progress) * 100);
+    const archiveNo = deriveArchiveNo(entity.code);
+
+    const statusLabel = entity.status === "contained" ? "异常已收容" : "解析中";
+    const statusIcon = entity.status === "contained" ? "verified_user" : "query_stats";
+
+    // 这块属于示例里的“照片信息/天气/时间/警告”，后面可以做成数据字段
+    const photoTag = `#${entity.zone ? (Array.isArray(entity.zone) ? entity.zone[0] : entity.zone) : "未知区域"}`;
+    const photoMeta = "07:12 AM // 阴";
+    const warningText = "警告：检测到现实扭曲场残留。该异常已被相关部门控制并清除。";
+
+    // 示例里的“特别补给”块，先做成一个默认内容，后面再按 code 配置不同商户内容
+    const supplyTitle = "南区深夜食堂";
+    const supplyDiscountNum = "5";
+    const supplyDiscountUnit = "折";
+    const supplyItem = "兑换物：铁板炒饭 (B级)";
+
+    return (
+        <div
+            className="bg-background-light dark:bg-background-dark min-h-screen font-display antialiased overflow-x-hidden">
+            <div
+                className="relative flex flex-col w-full min-h-screen max-w-md mx-auto shadow-2xl border-x border-gray-800 bg-noise">
+                {/* Header */}
+                <header
+                    className="flex items-center justify-between p-4 pb-2 border-b border-[#361721] bg-[#1a0b10]/90 backdrop-blur-sm sticky top-0 z-50">
+                    <button
+                        type="button"
+                        onClick={() => navigate("/atlas")}
+                        className="flex items-center gap-2 text-white/70"
+                    >
+                        <span className="material-symbols-outlined text-xl">arrow_back</span>
+                        <span className="text-xs tracking-widest uppercase">返回</span>
+                    </button>
+
+                    <h1
+                        className="text-white text-base font-bold tracking-wider glitch-text font-display"
+                        data-text={archiveNo}
+                        title={entity.code}
+                    >
+                        {archiveNo}
+                    </h1>
+
+                    <div className="flex items-center gap-2 text-primary">
+                        <span className="animate-pulse w-2 h-2 rounded-full bg-primary"/>
+                        <span className="text-xs font-mono">连接中</span>
+                    </div>
+                </header>
+
+                <main className="flex-1 flex flex-col p-4 gap-6 relative z-10">
+                    {/* Progress */}
+                    <section className="flex flex-col gap-2">
+                        <div className="flex justify-between items-end">
+                            <p className="text-white text-sm font-medium tracking-widest uppercase">解密进度</p>
+                            <p className="text-primary font-mono text-xs animate-pulse">{pct}% 完成</p>
+                        </div>
+                        <div className="w-full h-1.5 bg-[#361721] rounded overflow-hidden">
+                            <div
+                                className="h-full bg-primary shadow-[0_0_10px_#ff0055]"
+                                style={{width: `${pct}%`}}
+                            />
+                        </div>
+                        <p className="text-[#ce8da3] text-xs font-mono uppercase mt-1">
+                            &gt; 正在解析 REM 睡眠数据... 完成。
+                        </p>
+                    </section>
+
+                    {/* Archive body */}
+                    <section className="relative group" style={{perspective: "1000px"}}>
+                        <div
+                            className="bg-[#d4c5a9] dark:bg-[#3d332a] rounded-lg p-1 shadow-lg transform rotate-[-1deg] transition-transform duration-500 hover:rotate-0 border-t border-white/10 relative overflow-hidden">
+                            <div
+                                className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] pointer-events-none"/>
+                            <div
+                                className="bg-[#240f16] rounded p-4 relative overflow-hidden min-h-[440px] flex flex-col">
+                                {/* Stamp */}
+                                <div
+                                    className="absolute top-4 right-4 z-20 transform rotate-12 opacity-80 mix-blend-overlay">
+                                    <div className="stamp-box px-4 py-2">
+                                        <span
+                                            className="text-primary font-black text-xl tracking-[0.2em] uppercase">绝密</span>
+                                    </div>
+                                </div>
+
+                                {/* Photo */}
+                                <div
+                                    className="relative bg-white p-3 pb-6 shadow-xl transform rotate-2 w-full max-w-[90%] mx-auto mt-2 mb-6 z-10">
+                                    <div
+                                        className="aspect-[4/3] bg-gray-900 overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.02]">
+                                        <div
+                                            className="w-full h-full bg-cover bg-center mix-blend-luminosity contrast-125 brightness-90"
+                                            style={{backgroundImage: `url("${entity.coverUrl}")`}}
+                                        />
+                                        <div
+                                            className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-30 mix-blend-color-dodge"/>
+                                        <div className="absolute bottom-2 left-2 flex items-center gap-1">
+                                            <span
+                                                className="material-symbols-outlined text-white text-[12px]">{statusIcon}</span>
+                                            <span
+                                                className="text-white text-[10px] font-mono tracking-wider">{statusLabel}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-2 text-gray-800">
+                                        <div className="flex justify-between items-end">
+                                            <div>
+                                                <p className="text-sm font-bold tracking-tight">{photoTag}</p>
+                                                <p className="text-[10px] opacity-70 font-mono">{photoMeta}</p>
+                                            </div>
+                                            <span
+                                                className="material-symbols-outlined text-gray-400 text-sm">qr_code_2</span>
+                                        </div>
+                                        <div className="border-t border-gray-200 mt-2 pt-1">
+                                            <p className="text-[9px] text-gray-500 leading-tight">{warningText}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Paperclip */}
+                                    <div className="absolute -bottom-4 right-4 w-6 h-12 z-30 drop-shadow-md">
+                                        <svg fill="none" stroke="#a0aec0" strokeWidth="2" viewBox="0 0 24 48">
+                                            <path
+                                                d="M16 42V10C16 6.68629 13.3137 4 10 4C6.68629 4 4 6.68629 4 10V38C4 40.2091 5.79086 42 8 42C10.2091 42 12 40.2091 12 38V10"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                {/* Supply note */}
+                                <div
+                                    className="relative bg-[#fffdf5] text-gray-900 p-4 shadow-lg transform -rotate-1 w-[95%] mx-auto mt-[-10px] z-20 border-l-4 border-primary">
+                                    <div
+                                        className="absolute -top-[8px] left-0 w-full h-[8px] bg-[#fffdf5]"
+                                        style={{
+                                            maskImage:
+                                                "radial-gradient(circle at 8px bottom, transparent 8px, black 8.5px)",
+                                            maskSize: "16px 100%",
+                                            maskPosition: "bottom",
+                                        }}
+                                    />
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">特别补给</p>
+                                            <h3 className="text-lg font-bold leading-tight mb-1">{supplyTitle}</h3>
+                                            <div className="flex items-baseline gap-1 text-primary font-bold font-mono">
+                                                <span className="text-3xl">{supplyDiscountNum}</span>
+                                                <span className="text-xl">{supplyDiscountUnit}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-600 mt-1 font-mono">{supplyItem}</p>
+                                        </div>
+                                        <div className="border-2 border-gray-900 p-1 rounded-sm">
+                                            <span
+                                                className="material-symbols-outlined text-2xl text-gray-900">restaurant</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-3 flex gap-0.5 h-6 opacity-60">
+                                        <div className="w-1 bg-black"/>
+                                        <div className="w-2 bg-black"/>
+                                        <div className="w-px bg-black"/>
+                                        <div className="w-3 bg-black"/>
+                                        <div className="w-1 bg-black"/>
+                                        <div className="w-2 bg-black"/>
+                                        <div className="w-px bg-black"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                {/* grid overlay */}
+                <div
+                    className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+                    style={{
+                        backgroundImage:
+                            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+                        backgroundSize: "20px 20px",
+                    }}
+                />
+            </div>
+        </div>
+    );
+}
