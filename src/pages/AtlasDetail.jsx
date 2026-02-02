@@ -93,7 +93,7 @@ export default function AtlasDetail() {
                     </button>
 
                     <h1
-                        className="text-white text-base font-bold tracking-wider glitch-text font-display"
+                        className="text-white text-base font-extra tracking-wider glitch-text font-display"
                         data-text={archiveNo}
                         title={entity.code}
                     >
@@ -111,7 +111,7 @@ export default function AtlasDetail() {
                     <section className="flex flex-col gap-2">
                         <div className="flex justify-between items-end">
                             <p className="text-white text-sm font-medium tracking-widest uppercase">解密进度</p>
-                            <p className="text-primary font-mono text-xs animate-pulse">{pct}% 完成</p>
+                            <p className="text-primary font-mono text-xs animate-pulse">{pct}% COMPLETED</p>
                         </div>
                         <div className="w-full h-1.5 bg-[#361721] rounded overflow-hidden">
                             <div
@@ -137,7 +137,7 @@ export default function AtlasDetail() {
                                     className="absolute top-4 right-4 z-20 transform rotate-12 opacity-80 mix-blend-overlay">
                                     <div className="stamp-box px-4 py-2">
                                         <span
-                                            className="text-primary font-black text-xl tracking-[0.2em] uppercase">{detail.protocol}</span>
+                                            className="text-primary font-black text-5xl font-extra tracking-[0.2em] uppercase">{detail.protocol}</span>
                                     </div>
                                 </div>
 
@@ -163,7 +163,7 @@ export default function AtlasDetail() {
                                     <div className="mt-2 text-gray-800">
                                         <div className="flex justify-between items-end">
                                             <div>
-                                                <p className="text-sm font-bold tracking-tight">{photoTag}</p>
+                                                <p className="text-sm font-bold tracking-wide">{photoTag}</p>
                                                 <p className="text-[10px] opacity-70 font-mono">{photoMeta}</p>
                                             </div>
                                             <span
@@ -197,11 +197,13 @@ export default function AtlasDetail() {
                                     />
                                     <div className="flex justify-between items-start">
                                         <div>
-                                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">{detail.supply.typeLabel}</p>
+                                            <p className="text-[10px] font-bold text-gray-500 uppercase mb-1">{detail.supply.typeLabel}</p>
                                             <h3 className="text-lg font-bold leading-tight mb-1">{detail.supply.title}</h3>
-                                            <div className="flex items-baseline gap-1 text-primary font-bold font-mono">
+                                            <div
+                                                className="flex items-baseline gap-1 text-primary font-extra font-mono">
                                                 <span className="text-3xl">{detail.supply.discountNum}</span>
-                                                <span className="text-xl">{detail.supply.discountUnit}</span>
+                                                <span
+                                                    className="text-2xl tracking-[-0.1em]">{detail.supply.discountUnit}</span>
                                             </div>
                                             <p className="text-xs text-gray-600 mt-1 font-mono">{detail.supply.item}</p>
                                         </div>

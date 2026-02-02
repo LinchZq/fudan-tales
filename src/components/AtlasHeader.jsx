@@ -1,5 +1,5 @@
 export default function AtlasHeader({
-                                        title = "异闻图鉴",
+                                        title = "ARCHIVE OF ANOMALIES",
                                         subtitle = "系统状态：在线",
                                         schoolName = "复旦大学",
                                         zones = [],
@@ -12,10 +12,10 @@ export default function AtlasHeader({
             className="relative z-10 p-4 pb-2 flex flex-col gap-4 border-b border-white/5 bg-background-dark/80 backdrop-blur-md">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-1 animate-pulse">
+                    <h2 className="text-primary text-[10px] font-bold font-display uppercase mb-1 animate-pulse">
                         {subtitle}
                     </h2>
-                    <h1 className="text-white text-xl font-black leading-none tracking-tight">{title}</h1>
+                    <h1 className="text-white text-2xl font-black font-display tracking-tight">{title}</h1>
                 </div>
 
                 <div className="relative group">

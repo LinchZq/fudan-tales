@@ -21,7 +21,7 @@ export const detailsByCode = {
 
         photo: {
             tag: "#复旦_西门",
-            meta: "07:12 AM // 阴",
+            meta: "07:12 AM >> 阴",
             warning:
                 "警告：检测到现实扭曲场残留。该异常已被相关部门控制并清除。",
             // 可选：给照片单独一张图（不写则用 entity.coverUrl）
@@ -29,10 +29,8 @@ export const detailsByCode = {
         },
 
         supply: {
-            typeLabel: "特别补给",
             title: "南区深夜食堂",
-            discountNum: "5",
-            discountUnit: "折",
+            discountNum: "10%",
             item: "兑换物：铁板炒饭 (B级)",
             icon: "restaurant", // Material Symbols 名称
         },
@@ -43,14 +41,12 @@ export const detailsByCode = {
         decrypt: {hint: " 正在扫描咖啡因残留... 完成。"},
         photo: {
             tag: "#复旦_图书馆",
-            meta: "11:30 PM // 小雨",
+            meta: "11:30 PM >> 小雨",
             warning: "警告：检测到自增殖液体。请勿在封闭空间开启容器。",
         },
         supply: {
-            typeLabel: "特别补给",
             title: "学理咖啡",
-            discountNum: "8",
-            discountUnit: "折",
+            discountNum: "20%",
             item: "兑换物：美式咖啡 (A级)",
             icon: "local_cafe",
         },
@@ -61,14 +57,12 @@ export const detailsByCode = {
         decrypt: {hint: " 正在匹配考场噪声指纹... 完成。"},
         photo: {
             tag: "#复旦_教室",
-            meta: "02:10 AM // 多云",
+            meta: "02:10 AM >> 多云",
             warning: "警告：疑似存在记忆回响。连续暴露可能导致梦境侵入。",
         },
         supply: {
-            typeLabel: "特别补给",
             title: "夜读自习室",
-            discountNum: "6",
-            discountUnit: "折",
+            discountNum: "40%",
             item: "兑换物：热牛奶 (B级)",
             icon: "menu_book",
         },
@@ -82,14 +76,14 @@ export const defaultDetail = {
     decrypt: {hint: " 正在解析 REM 睡眠数据... 完成。"},
     photo: {
         tag: "#复旦_未知区域",
-        meta: "??:?? // 未知",
+        meta: "??:?? >> 未知",
         warning: "警告：检测到异常信号残留。请勿靠近。",
     },
     supply: {
-        typeLabel: "特别补给",
+        typeLabel: "特别补给 // SPECIAL SUPPLY",
         title: "未知补给点",
         discountNum: "?",
-        discountUnit: "折",
+        discountUnit: "off",
         item: "兑换物：未知",
         icon: "qr_code_2",
     },

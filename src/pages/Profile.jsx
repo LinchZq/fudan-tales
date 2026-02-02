@@ -157,8 +157,8 @@ export default function Profile() {
                     <div className="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
                         <div className="flex items-center gap-2">
                             <span className="font-icon text-primary text-sm">ssid_chart</span>
-                            <h2 className="text-xs font-bold tracking-widest text-white">
-                                时空漂移记录 <span className="text-text-dim text-[9px] ml-1">// TEMPORAL_DRIFT</span>
+                            <h2 className="text-xs font-bold text-white">
+                                校准记录 <span className="text-text-dim text-[9px] ml-1">// CALIBRATION RECORD</span>
                             </h2>
                         </div>
                         <span className="text-[9px] text-text-dim">TOTAL: {currentUser.totalSyncHours}h</span>
@@ -224,7 +224,7 @@ export default function Profile() {
                 <section className={`transition-all duration-1000 delay-300 ${booted ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center gap-2 mb-3 border-b border-white/10 pb-2">
                         <span className="font-icon text-primary text-sm">extension</span>
-                        <h2 className="text-xs font-bold tracking-widest text-white">
+                        <h2 className="text-xs font-bold text-white">
                             记忆印痕 <span className="text-text-dim text-[9px] ml-1">// MEMORY_ENGRAMS</span>
                         </h2>
                     </div>

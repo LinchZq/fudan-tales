@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 
 export default function Atlas() {
     useEffect(() => {
-        document.title = "异闻图鉴";
+        document.title = "ARCHIVE OF ANOMALIES - 异闻图鉴";
     }, []);
 
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function Atlas() {
             <div
                 className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none z-0"/>
             <AtlasHeader
-                title="异闻图鉴"
+                title="ARCHIVE OF ANOMALIES"
                 subtitle="系统状态：在线"
                 schoolName="复旦大学"
                 zones={zones}
