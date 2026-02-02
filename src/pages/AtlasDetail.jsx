@@ -88,7 +88,7 @@ export default function AtlasDetail() {
                         onClick={() => navigate("/atlas")}
                         className="flex items-center gap-2 text-white/70"
                     >
-                        <span className="material-symbols-outlined text-xl">arrow_back</span>
+                        <span className="font-icon text-xl">arrow_back</span>
                         <span className="text-xs tracking-widest uppercase">返回</span>
                     </button>
 
@@ -154,7 +154,7 @@ export default function AtlasDetail() {
                                             className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-30 mix-blend-color-dodge"/>
                                         <div className="absolute bottom-2 left-2 flex items-center gap-1">
                                             <span
-                                                className="material-symbols-outlined text-white text-[12px]">{statusIcon}</span>
+                                                className="font-icon text-white text-[12px]">{statusIcon}</span>
                                             <span
                                                 className="text-white text-[10px] font-mono tracking-wider">{statusLabel}</span>
                                         </div>
@@ -167,7 +167,7 @@ export default function AtlasDetail() {
                                                 <p className="text-[10px] opacity-70 font-mono">{photoMeta}</p>
                                             </div>
                                             <span
-                                                className="material-symbols-outlined text-gray-400 text-sm">{detail.supply.icon}</span>
+                                                className="font-icon text-gray-400 text-sm">{detail.supply.icon}</span>
                                         </div>
                                         <div className="border-t border-gray-200 mt-2 pt-1">
                                             <p className="text-[9px] text-gray-500 leading-tight">{warningText}</p>
@@ -207,7 +207,7 @@ export default function AtlasDetail() {
                                         </div>
                                         <div className="border-2 border-gray-900 p-1 rounded-sm">
                                             <span
-                                                className="material-symbols-outlined text-2xl text-gray-900">restaurant</span>
+                                                className="font-icon text-2xl text-gray-900">restaurant</span>
                                         </div>
                                     </div>
 

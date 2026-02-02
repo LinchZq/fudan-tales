@@ -71,7 +71,7 @@ export default function Atlas() {
                 <div className="fixed bottom-24 right-4 z-40">
                     <button
                         className="group flex items-center gap-3 bg-black border border-primary text-primary px-4 py-3 rounded-full shadow-[0_0_20px_rgba(255,0,85,0.3)] hover:bg-primary hover:text-white transition-all duration-300">
-                        <span className="material-symbols-outlined">terminal</span>
+                        <span className="font-icon">terminal</span>
                         <span className="text-sm font-bold tracking-tight pr-1">商户模拟 [调试模式]</span>
                     </button>
                 </div>
@@ -82,6 +82,7 @@ export default function Atlas() {
                     // 你已有路由的话可以在这里跳转
                     // 例子：
                     if (key === "atlas") navigate("/atlas");
+                    if (key === "me") navigate("/me");
                     // if (key === "home") navigate("/");
                 }}
             />

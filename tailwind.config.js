@@ -3,9 +3,13 @@ export default {
     content: ["./index.html", "./src/**/*.{js,jsx}"],
     darkMode: "class",
     theme: {
+        fontWeight: {
+            normal: 450,
+            bold: 580,
+        },
         extend: {
             colors: {
-                primary: "#ff0055",
+                "primary": "#ff0055",
                 "primary-dark": "#cc0044",
                 "background-light": "#f8f5f6",
                 "background-dark": "#230f16",
@@ -13,8 +17,10 @@ export default {
                 "text-dim": "#ce8da3",
             },
             fontFamily: {
-                display: ["Noto Sans SC", "Space Grotesk", "sans-serif"],
-                mono: ["Space Grotesk", "monospace"],
+                sans: ["Space Grotesk", "Sarasa Gothic", "system-ui", "sans-serif"],
+                display: ["Bebas Neue", "Space Grotesk", "Sarasa Gothic", "sans-serif"],
+                mono: ["JetBrains Mono", "Sarasa Gothic", "Courier New", "monospace"],
+                icon: ["Material Symbols Outlined"],
             },
             backgroundImage: {
                 scanlines:

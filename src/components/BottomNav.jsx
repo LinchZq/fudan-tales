@@ -12,7 +12,9 @@ export default function BottomNav({activeKey = "atlas", onNavigate}) {
             {items.map((it) => {
                 const active = it.key === activeKey;
 
-                if (active && it.key === "atlas") {
+                // [修改] 移除 && it.key === "atlas" 的限制
+                // 只要是当前选中的项 (active)，就应用这个带有顶部发光条的样式
+                if (active) {
                     return (
                         <button
                             key={it.key}
@@ -20,13 +22,16 @@ export default function BottomNav({activeKey = "atlas", onNavigate}) {
                             onClick={() => onNavigate?.(it.key)}
                             className="flex flex-col items-center gap-1 text-primary relative group"
                         >
+                            {/* 顶部发光指示条 */}
                             <div
                                 className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-full shadow-[0_0_10px_#ff0055]"/>
-                            <span className="material-symbols-outlined scale-110">{it.icon}</span>
+                            {/* 选中状态下图标略微放大 */}
+                            <span className="font-icon scale-110">{it.icon}</span>
                         </button>
                     );
                 }
 
+                // 未选中状态保持原样 (带有 hover 显示文字的逻辑)
                 return (
                     <button
                         key={it.key}
@@ -34,16 +39,16 @@ export default function BottomNav({activeKey = "atlas", onNavigate}) {
                         onClick={() => onNavigate?.(it.key)}
                         className={[
                             "flex flex-col items-center gap-1 group relative",
-                            active ? "text-primary" : "text-text-dim hover:text-white",
+                            "text-text-dim hover:text-white", // 移除了 active ? "text-primary" 的判断，因为 active 已经在上面处理了
                         ].join(" ")}
                     >
-            <span className="material-symbols-outlined group-hover:scale-110 transition-transform">
-              {it.icon}
-            </span>
+                        <span className="font-icon group-hover:scale-110 transition-transform">
+                            {it.icon}
+                        </span>
                         <span
                             className="text-[10px] font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity absolute -top-3 bg-black px-1">
-              {it.label}
-            </span>
+                            {it.label}
+                        </span>
                     </button>
                 );
             })}

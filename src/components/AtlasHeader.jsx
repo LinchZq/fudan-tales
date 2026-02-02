@@ -24,7 +24,7 @@ export default function AtlasHeader({
                         className="flex items-center gap-2 bg-surface-dark border border-white/10 hover:border-primary/50 transition-colors rounded pl-3 pr-2 py-1.5"
                     >
                         <span className="text-sm font-bold text-white tracking-tight">{schoolName}</span>
-                        <span className="material-symbols-outlined text-primary text-lg">arrow_drop_down</span>
+                        <span className="font-icon text-primary text-lg">arrow_drop_down</span>
                     </button>
                 </div>
             </div>
@@ -52,7 +52,7 @@ export default function AtlasHeader({
             </div>
 
             <div className="flex items-center gap-2 text-[10px] text-text-dim font-mono opacity-80">
-                <span className="material-symbols-outlined text-[12px]">database</span>
+                <span className="font-icon text-[12px]">database</span>
                 <span className="tracking-wide">{syncText}</span>
             </div>
         </header>
