@@ -20,12 +20,11 @@ export const detailsByCode = {
         },
 
         photo: {
-            tag: "#复旦_西门",
+            tag: "#本部_西门",
             meta: "07:12 AM >> 阴",
             warning:
-                "警告：检测到现实扭曲场残留。该异常已被相关部门控制并清除。",
+                "警告：不存在的实体。检测到现实扭曲场残留。该异常已被相关部门控制并清除。",
             // 可选：给照片单独一张图（不写则用 entity.coverUrl）
-            // imageUrl: "/images/atlas/detail/fd-082-photo.png",
         },
 
         supply: {
@@ -40,7 +39,7 @@ export const detailsByCode = {
         archiveNo: "档案编号 24-11-C",
         decrypt: {hint: " 正在扫描咖啡因残留... 完成。"},
         photo: {
-            tag: "#复旦_图书馆",
+            tag: "#理科_图书馆",
             meta: "11:30 PM >> 小雨",
             warning: "警告：检测到自增殖液体。请勿在封闭空间开启容器。",
         },
@@ -56,7 +55,7 @@ export const detailsByCode = {
         archiveNo: "档案编号 24-12-R",
         decrypt: {hint: " 正在匹配考场噪声指纹... 完成。"},
         photo: {
-            tag: "#复旦_教室",
+            tag: "#H3108_教室",
             meta: "02:10 AM >> 多云",
             warning: "警告：疑似存在记忆回响。连续暴露可能导致梦境侵入。",
         },
@@ -80,7 +79,8 @@ export const defaultDetail = {
         warning: "警告：检测到异常信号残留。请勿靠近。",
     },
     supply: {
-        typeLabel: "特别补给 // SPECIAL SUPPLY",
+        typeLabelCn: "特别补给",
+        typeLabelEn: "SPECIAL SUPPLY",
         title: "未知补给点",
         discountNum: "?",
         discountUnit: "off",

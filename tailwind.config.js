@@ -5,8 +5,8 @@ export default {
     theme: {
         fontWeight: {
             normal: 450,
+            bold: 590,
             extra: 700,
-            bold: 580,
         },
         extend: {
             colors: {

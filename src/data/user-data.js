@@ -1,5 +1,6 @@
 export const currentUser = {
-    id: "DREAMER-049",
+    name: "DREAMER-049",
+    id: "049",
     alias: "CHRONO_WATCHER",
     department: "大数据学院 · 异常行为观测科",
     level: 18,

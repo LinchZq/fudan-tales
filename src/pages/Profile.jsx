@@ -1,21 +1,30 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BottomNav from "../components/BottomNav";
+import EngramList from "../components/EngramList";
+import EngramModal from "../components/EngramModal";
+import BilingualText from "../components/ui/BilingualText";
 import {currentUser, syncLog, engrams} from "../data/user-data.js";
 
 export default function Profile() {
     const navigate = useNavigate();
-    // 启动序列状态，用于控制级联动画
+
+    // --- State Management ---
     const [booted, setBooted] = useState(false);
     const [activeBar, setActiveBar] = useState(null);
 
+    // 控制 Modal 的状态
+    const [selectedEngram, setSelectedEngram] = useState(null);
+
+    // --- Effects ---
     useEffect(() => {
         document.title = "神经档案 | ARCHIVE";
-        // 模拟 CRT 开机延迟
-        setTimeout(() => setBooted(true), 150);
+        // 模拟 CRT 开机延迟效果
+        const timer = setTimeout(() => setBooted(true), 10);
+        return () => clearTimeout(timer);
     }, []);
 
-    // --- 辅助函数：动态获取颜色 ---
+    // --- Helpers ---
     const getStatusColor = (status) => {
         switch (status) {
             case "OPTIMAL":
@@ -31,40 +40,33 @@ export default function Profile() {
         }
     };
 
-    const getRarityStyles = (rarity) => {
-        switch (rarity) {
-            case "legendary":
-                return "border-yellow-400/50 text-yellow-400 bg-yellow-400/5";
-            case "epic":
-                return "border-purple-400/50 text-purple-400 bg-purple-400/5";
-            case "rare":
-                return "border-cyan-400/50 text-cyan-400 bg-cyan-400/5";
-            default:
-                return "border-white/20 text-white bg-white/5"; // common
-        }
-    };
-
     return (
         <div
             className="relative min-h-screen flex flex-col w-full max-w-md mx-auto bg-background-dark overflow-hidden font-mono text-white selection:bg-primary selection:text-white">
 
-            {/* 环境特效 */}
+            {/* --- 全局模态框 (Portal/Overlay) --- */}
+            {/* 当 selectedEngram 存在时，Modal 会渲染并覆盖在页面上方 */}
+            <EngramModal
+                engram={selectedEngram}
+                onClose={() => setSelectedEngram(null)}
+            />
+
+            {/* --- 环境背景特效 --- */}
             <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none z-0 mix-blend-overlay"/>
             <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none z-0"/>
 
-            {/* ID CARD */}
+            {/* --- Header: ID CARD --- */}
             <header
                 className={`relative z-10 p-5 pt-8 transition-all duration-1000 ${booted ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
                 <div className="glass-card rounded-xl p-5 border-l-4 border-l-primary overflow-hidden relative group">
-
-                    {/* 装饰：背景大字 */}
+                    {/* 装饰大字背景 */}
                     <div
-                        className="absolute -top-4 -right-4 text-9xl font-black text-white/5 pointer-events-none select-none">
-                        049
+                        className="absolute -top-4 -right-4 text-9xl opacity-10 font-black font-extra tracking-tighter pointer-events-none select-none">
+                        {currentUser.id}
                     </div>
 
                     <div className="flex items-start gap-5 relative z-10">
-                        {/* 头像框 (带扫描线) */}
+                        {/* 头像框 */}
                         <div
                             className="w-20 h-24 bg-black border border-white/20 relative shrink-0 overflow-hidden stamp-box">
                             <img
@@ -76,11 +78,11 @@ export default function Profile() {
                             <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary animate-pulse"/>
                         </div>
 
-                        {/* 信息区 */}
+                        {/* 个人信息 */}
                         <div className="flex-1 space-y-1">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h1 className="text-2xl font-display font-bold tracking-wider">{currentUser.id}</h1>
+                                    <h1 className="text-2xl font-display font-bold tracking-wider">{currentUser.name}</h1>
                                     <p className="text-[10px] text-primary font-bold tracking-[-0.02em]">{currentUser.alias}</p>
                                 </div>
                                 <span className="font-icon text-white/20 text-3xl">fingerprint</span>
@@ -98,12 +100,10 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    {/* 理智值 (Sanity Bar) */}
+                    {/* Sanity Bar */}
                     <div className="mt-5 relative z-10">
                         <div className="flex justify-between text-[10px] text-text-dim mb-1 font-bold">
-                            <h3>
-                                理智值 <span className="text-primary/70 ml-1">// SANITY_STABILITY</span>
-                            </h3>
+                            <BilingualText cn="理智值" en="SANITY_STABILITY"/>
                             <span
                                 className={currentUser.sanity < 50 ? "text-red-500" : "text-teal-400"}>{currentUser.sanity}%</span>
                         </div>
@@ -118,7 +118,8 @@ export default function Profile() {
             </header>
 
             <main className="relative z-10 flex-1 overflow-y-auto px-5 pb-32 space-y-6 scroll-smooth">
-                {/* DASHBOARD */}
+
+                {/* --- Section 1: Dashboard Stats --- */}
                 <section className={`transition-all duration-1000 delay-100 ${booted ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="grid grid-cols-2 gap-2">
                         {[
@@ -129,37 +130,34 @@ export default function Profile() {
                         ].map((item, i) => (
                             <div key={i}
                                  className="glass-card relative p-3 rounded border border-white/5 flex flex-col justify-between overflow-hidden group">
-                                {/* 局部扫描线 */}
                                 <div className="absolute inset-0 scanline-overlay opacity-30 pointer-events-none"/>
                                 <div
                                     className="relative z-10 text-[9px] text-text-dim font-bold tracking-wider flex flex-col leading-tight">
                                     <span>{item.cn}</span>
                                     <span className="scale-75 origin-top-left opacity-50">// {item.en}</span>
                                 </div>
-
                                 <div className="relative z-10 flex justify-between items-end mt-2">
-                    <span
-                        className={`text-lg font-mono font-bold ${item.data.status === 'warn' ? 'text-yellow-400' : 'text-white'}`}>
-                      {item.data.val}
-                    </span>
+                                    <span
+                                        className={`text-lg font-mono font-bold ${item.data.status === 'warn' ? 'text-yellow-400' : 'text-white'}`}>
+                                      {item.data.val}
+                                    </span>
                                     <span
                                         className={`text-[8px] px-1 rounded ${item.data.status === 'opt' ? 'text-teal-400 bg-teal-400/10' : 'text-text-dim bg-white/5'}`}>
-                      {item.data.trend}
-                    </span>
+                                      {item.data.trend}
+                                    </span>
                                 </div>
                                 <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-white/20"/>
                             </div>
                         ))}
                     </div>
                 </section>
-                {/* CHART */}
+
+                {/* --- Section 2: Calibration Chart --- */}
                 <section className={`transition-all duration-1000 delay-200 ${booted ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
                         <div className="flex items-center gap-2">
                             <span className="font-icon text-primary text-sm">ssid_chart</span>
-                            <h2 className="text-xs font-bold text-white">
-                                校准记录 <span className="text-text-dim text-[9px] ml-1">// CALIBRATION RECORD</span>
-                            </h2>
+                            <BilingualText cn="校准记录" en="CALIBRATION LOG" className="text-xs"/>
                         </div>
                         <span className="text-[9px] text-text-dim">TOTAL: {currentUser.totalSyncHours}h</span>
                     </div>
@@ -170,25 +168,19 @@ export default function Profile() {
                         <div className="relative z-10 flex justify-between items-end h-36 gap-2">
                             {syncLog.map((log, idx) => {
                                 const heightPercent = Math.min((log.hours / 10) * 100, 100);
-
-                                // 点击(active)时显示特殊色，否则显示 primary 主题色
                                 const isActive = activeBar === idx;
-                                const barColor = isActive
-                                    ? getStatusColor(log.status) // 选中：显示多彩状态
-                                    : "bg-primary/30 hover:bg-primary/60"; // 默认：统一深红色，hover 变亮
+                                const barColor = isActive ? getStatusColor(log.status) : "bg-primary/30 hover:bg-primary/60";
 
                                 return (
                                     <div
                                         key={idx}
-                                        onClick={() => setActiveBar(idx)} // 点击触发
+                                        onClick={() => setActiveBar(idx)}
                                         className="flex flex-col items-center gap-2 flex-1 group h-full justify-end cursor-pointer"
                                     >
-                                        {/* 悬浮数值提示 */}
                                         <div
                                             className={`absolute -top-2 text-[9px] font-bold transition-opacity duration-300 ${isActive ? 'opacity-100 text-white' : 'opacity-0 text-text-dim'}`}>
                                             {log.hours}h
                                         </div>
-
                                         <div
                                             className="w-full h-full flex items-end relative rounded-sm bg-white/5 overflow-hidden">
                                             <div
@@ -198,14 +190,13 @@ export default function Profile() {
                                         </div>
                                         <span
                                             className={`text-[9px] font-mono transition-colors ${isActive ? 'text-primary font-bold' : 'text-text-dim'}`}>
-                         {log.day.charAt(0)}
-                       </span>
+                                            {log.day.charAt(0)}
+                                        </span>
                                     </div>
                                 );
                             })}
                         </div>
-
-                        {/* 详细信息面板 (仅选中时) */}
+                        {/* 选中时的详情文本 */}
                         <div
                             className="mt-3 pt-2 border-t border-white/10 flex justify-between text-[9px] min-h-[20px]">
                             {activeBar !== null ? (
@@ -220,76 +211,22 @@ export default function Profile() {
                         </div>
                     </div>
                 </section>
-                {/* MEDALS */}
+
+                {/* --- Section 3: Engrams (Refactored) --- */}
                 <section className={`transition-all duration-1000 delay-300 ${booted ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center gap-2 mb-3 border-b border-white/10 pb-2">
                         <span className="font-icon text-primary text-sm">extension</span>
-                        <h2 className="text-xs font-bold text-white">
-                            记忆印痕 <span className="text-text-dim text-[9px] ml-1">// MEMORY_ENGRAMS</span>
-                        </h2>
+                        <BilingualText cn="记忆印痕" en="MEMORY ENGRAMS" className="text-xs"/>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                        {engrams.map((engram) => {
-                            const isLocked = engram.status === "locked";
-                            const isParsing = engram.status === "parsing";
-                            const styles = getRarityStyles(engram.rarity);
-
-                            return (
-                                <div
-                                    key={engram.id}
-                                    className={`relative rounded-xl p-3 border flex flex-col gap-2 transition-all hover:scale-[1.02] active:scale-95 group overflow-hidden
-                     ${isLocked ? "border-white/5 bg-transparent blur-cipher" : `bg-background-dark/50 ${styles}`}
-                   `}
-                                >
-                                    {/* Header: Icon & Rarity */}
-                                    <div className="flex justify-between items-start">
-                       <span className={`font-icon text-2xl ${isLocked ? 'text-white/20' : ''}`}>
-                         {isLocked ? 'lock' : engram.icon}
-                       </span>
-                                        {!isLocked && (
-                                            <span
-                                                className="text-[8px] uppercase border border-current px-1 rounded opacity-70">
-                           {engram.rarity}
-                         </span>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <h3 className={`text-xs font-bold mb-1 ${isLocked ? 'text-text-dim' : 'text-white'}`}>
-                                            {isLocked ? "ENCRYPTED" : engram.name}
-                                        </h3>
-
-                                        {isParsing ? (
-                                            // 进度条状态
-                                            <div className="mt-1">
-                                                <div className="flex justify-between text-[8px] text-text-dim mb-1">
-                                                    <span>解析中...</span>
-                                                    <span>{engram.progress}%</span>
-                                                </div>
-                                                <div className="h-1 w-full bg-white/10 rounded-full">
-                                                    <div className="h-full bg-current"
-                                                         style={{width: `${engram.progress}%`}}/>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <p className="text-[9px] text-text-dim leading-tight h-8 overflow-hidden line-clamp-2">
-                                                {isLocked ? "Wait for sync..." : engram.desc}
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    {engram.status === 'unlocked' && (
-                                        <div
-                                            className="absolute inset-0 holo-scan pointer-events-none opacity-50 rounded-xl"/>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {/* 使用拆分后的组件，并传入点击事件处理 */}
+                    <EngramList
+                        engrams={engrams}
+                        onSelect={(engram) => setSelectedEngram(engram)}
+                    />
                 </section>
+
                 <div className="h-4"/>
-                {/* Spacer */}
             </main>
 
             <BottomNav
@@ -297,7 +234,7 @@ export default function Profile() {
                 onNavigate={(key) => {
                     if (key === "atlas") navigate("/atlas");
                     if (key === "me") navigate("/me");
-                    // Add other navigation logic
+                    // 实际项目中应添加其他路由
                 }}
             />
         </div>

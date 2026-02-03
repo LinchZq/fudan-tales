@@ -1,7 +1,9 @@
 import {detailsByCode, defaultDetail} from "../data/card-details";
+import {cards} from "../data/cards";
+import BilingualText from "../components/ui/BilingualText";
 import {useEffect, useMemo} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {cards} from "../data/cards";
+
 
 function clamp01(x) {
     return Math.max(0, Math.min(1, x));
@@ -197,6 +199,8 @@ export default function AtlasDetail() {
                                     />
                                     <div className="flex justify-between items-start">
                                         <div>
+                                            <BilingualText cn={detail.supply.typeLabelCn} en={detail.supply.typeLabelEn}
+                                                           className="mb-2 text-[10px] text-gray-700"/>
                                             <p className="text-[10px] font-bold text-gray-500 uppercase mb-1">{detail.supply.typeLabel}</p>
                                             <h3 className="text-lg font-bold leading-tight mb-1">{detail.supply.title}</h3>
                                             <div
