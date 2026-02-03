@@ -28,7 +28,7 @@ export default function EntityCard({
                 if (e.key === "Enter") onClick();
             }}
             className={[
-                "glass-card rounded-lg overflow-hidden group relative hover:border-primary/50 transition-all duration-300",
+                "glass-card rounded-lg overflow-hidden group relative card-hover-glow",
                 onClick ? "cursor-pointer" : "",
             ].join(" ")}>
             <div

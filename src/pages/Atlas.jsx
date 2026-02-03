@@ -83,6 +83,7 @@ export default function Atlas() {
                     // 例子：
                     if (key === "atlas") navigate("/atlas");
                     if (key === "me") navigate("/me");
+                    if (key === "sleep") navigate("/sleep");
                     // if (key === "home") navigate("/");
                 }}
             />

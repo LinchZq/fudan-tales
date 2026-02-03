@@ -129,7 +129,7 @@ export default function Profile() {
                             {en: "REM COHERENCE", cn: "REM 一致度", data: currentUser.stats.coherence},
                         ].map((item, i) => (
                             <div key={i}
-                                 className="glass-card relative p-3 rounded border border-white/5 flex flex-col justify-between overflow-hidden group">
+                                 className="glass-card relative p-3 rounded border border-white/5 flex flex-col justify-between overflow-hidden card-hover-glow group">
                                 <div className="absolute inset-0 scanline-overlay opacity-30 pointer-events-none"/>
                                 <div
                                     className="relative z-10 text-[9px] text-text-dim font-bold tracking-wider flex flex-col leading-tight">
@@ -234,6 +234,7 @@ export default function Profile() {
                 onNavigate={(key) => {
                     if (key === "atlas") navigate("/atlas");
                     if (key === "me") navigate("/me");
+                    if (key === "sleep") navigate("/sleep");
                     // 实际项目中应添加其他路由
                 }}
             />
