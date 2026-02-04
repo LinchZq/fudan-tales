@@ -5,20 +5,29 @@ import BilingualText from './ui/BilingualText';
 export default function EngramModal({engram, onClose}) {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
 
     // 控制进入动画
     useEffect(() => {
-        // 仅在 engram 存在且当前尚未可见时触发，避免不必要的同步 setState
-        if (engram && !isVisible) {
-            const rafId = requestAnimationFrame(() => setIsVisible(true));
-            return () => cancelAnimationFrame(rafId);
+        let rafId = 0;
+        if (engram && !isVisible && !isClosing) {
+            rafId = requestAnimationFrame(() => setIsVisible(true));
+        } else if (!engram && (isVisible || isClosing)) {
+            rafId = requestAnimationFrame(() => {
+                setIsVisible(false);
+                setIsClosing(false);
+            });
         }
-    }, [engram, isVisible]);
+        return () => {
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, [engram, isVisible, isClosing]);
 
     if (!engram) return null;
 
     const handleClose = () => {
         setIsVisible(false);
+        setIsClosing(true);
         // 等待动画结束后再销毁
         setTimeout(onClose, 300);
     };
