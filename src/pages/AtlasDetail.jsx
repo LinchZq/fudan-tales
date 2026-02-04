@@ -3,6 +3,7 @@ import {cards} from "../data/cards";
 import BilingualText from "../components/ui/BilingualText";
 import {useEffect, useMemo} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import LayoutEffects from "../components/layout/LayoutEffects";
 
 
 function clamp01(x) {
@@ -80,11 +81,11 @@ export default function AtlasDetail() {
     return (
         <div
             className="bg-background-light dark:bg-background-dark min-h-screen font-display antialiased overflow-x-hidden">
-            <div
-                className="relative flex flex-col w-full min-h-screen max-w-md mx-auto shadow-2xl border-x border-gray-800 bg-noise">
+            <div className="layout-page layout-frame-light shadow-2xl border-x border-gray-800">
+                <LayoutEffects noise="soft" grid/>
+
                 {/* Header */}
-                <header
-                    className="flex items-center justify-between p-4 pb-2 border-b border-[#361721] bg-[#1a0b10]/90 backdrop-blur-sm sticky top-0 z-50">
+                <header className="header-bar sticky top-0 z-50 p-4 pb-2 border-[#361721] bg-[#1a0b10]/90">
                     <button
                         type="button"
                         onClick={() => navigate("/atlas")}
@@ -95,7 +96,7 @@ export default function AtlasDetail() {
                     </button>
 
                     <h1
-                        className="text-white text-base font-extra tracking-wider glitch-text font-display"
+                        className="header-title text-base font-extra glitch-text"
                         data-text={archiveNo}
                         title={entity.code}
                     >
@@ -115,9 +116,9 @@ export default function AtlasDetail() {
                             <p className="text-white text-sm font-medium tracking-widest uppercase">解密进度</p>
                             <p className="text-primary font-mono text-xs animate-pulse">{pct}% COMPLETED</p>
                         </div>
-                        <div className="w-full h-1.5 bg-[#361721] rounded overflow-hidden">
+                        <div className="progress-track progress-track-md bg-[#361721]">
                             <div
-                                className="h-full bg-primary shadow-[0_0_10px_#ff0055]"
+                                className="progress-bar progress-bar-glow"
                                 style={{width: `${pct}%`}}
                             />
                         </div>
@@ -166,13 +167,13 @@ export default function AtlasDetail() {
                                         <div className="flex justify-between items-end">
                                             <div>
                                                 <p className="text-sm font-bold tracking-wide">{photoTag}</p>
-                                                <p className="text-[10px] opacity-70 font-mono">{photoMeta}</p>
+                                                <p className="text-xxs opacity-70 font-mono">{photoMeta}</p>
                                             </div>
                                             <span
                                                 className="font-icon text-gray-400 text-sm">{detail.supply.icon}</span>
                                         </div>
                                         <div className="border-t border-gray-200 mt-2 pt-1">
-                                            <p className="text-[9px] text-gray-500 leading-tight">{warningText}</p>
+                                            <p className="text-xxxs text-gray-500 leading-tight">{warningText}</p>
                                         </div>
                                     </div>
 
@@ -233,14 +234,6 @@ export default function AtlasDetail() {
                 </main>
 
                 {/* grid overlay */}
-                <div
-                    className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-                        backgroundSize: "20px 20px",
-                    }}
-                />
             </div>
         </div>
     );
