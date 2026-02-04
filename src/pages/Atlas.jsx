@@ -1,11 +1,12 @@
 import EntityCard from "../components/EntityCard";
 import LockedCard from "../components/LockedCard";
 import AtlasHeader from "../components/AtlasHeader";
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../components/ui/BottomNav.jsx";
 import {cards} from "../data/cards";
 import {zones} from "../data/zones";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import LayoutEffects from "../components/layout/LayoutEffects";
 
 export default function Atlas() {
     useEffect(() => {
@@ -22,12 +23,9 @@ export default function Atlas() {
     });
 
     return (
-        <div
-            className="relative min-h-screen flex flex-col w-full max-w-md mx-auto shadow-2xl overflow-hidden bg-background-dark">
-            <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none z-0 mix-blend-overlay"/>
-            <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none z-0"/>
-            <div
-                className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none z-0"/>
+        <div className="layout-page layout-frame">
+            <LayoutEffects noise="strong" scanlines glow vignette/>
+
             <AtlasHeader
                 title="ARCHIVE OF ANOMALIES"
                 subtitle="系统状态：在线"
@@ -70,7 +68,8 @@ export default function Atlas() {
                 </div>
                 <div className="fixed bottom-24 right-4 z-40">
                     <button
-                        className="group flex items-center gap-3 bg-black border border-primary text-primary px-4 py-3 rounded-full shadow-[0_0_20px_rgba(255,0,85,0.3)] hover:bg-primary hover:text-white transition-all duration-300">
+                        className="btn-base btn-primary rounded-full px-4 py-3 shadow-[0_0_20px_rgba(255,0,85,0.3)]"
+                    >
                         <span className="font-icon">terminal</span>
                         <span className="text-sm font-bold tracking-tight pr-1">商户模拟 [调试模式]</span>
                     </button>
@@ -87,8 +86,6 @@ export default function Atlas() {
                     // if (key === "home") navigate("/");
                 }}
             />
-            <div
-                className="pointer-events-none absolute inset-0 z-40 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]"/>
         </div>
     );
 }

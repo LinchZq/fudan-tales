@@ -55,15 +55,15 @@ export default function EngramModal({engram, onClose}) {
                 ${isVisible ? 'animate-modal-entry' : 'scale-95 opacity-0'}
             `}>
                 {/* 装饰：背景网格与噪点 */}
-                <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none"/>
-                <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none mix-blend-overlay"/>
+                <div className="absolute inset-0 effect-grid-soft"/>
+                <div className="absolute inset-0 effect-noise-soft"/>
 
                 {/* 顶部状态条 */}
                 <div
                     className="bg-primary/10 border-b border-primary/30 p-3 flex justify-between items-center relative z-10">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-primary rounded-full animate-ping"/>
-                        <span className="text-[10px] font-mono tracking-widest text-primary font-bold">
+                        <span className="text-xxs font-mono tracking-widest text-primary font-bold">
                             ARCHIVE_ENTRY // {engram.id}
                         </span>
                     </div>
@@ -83,8 +83,7 @@ export default function EngramModal({engram, onClose}) {
 
                     {/* 图像/可视化 (左图右文布局的变体) */}
                     <div className="relative w-full h-40 bg-black border border-white/10 rounded overflow-hidden group">
-                        {/* 模拟图像加载故障效果 */}
-                        <div className="absolute inset-0 bg-scanlines opacity-50 z-20 pointer-events-none"/>
+                        <div className="absolute inset-0 effect-scanlines-soft z-20"/>
                         <div className="w-full h-full flex items-center justify-center bg-surface-dark">
                             {/* 这里的 Icon 只是占位，实际项目可能显示大图 */}
                             <span
@@ -95,7 +94,7 @@ export default function EngramModal({engram, onClose}) {
 
                         {/* 悬浮覆盖层 */}
                         <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black to-transparent">
-                            <span className="text-[9px] font-mono text-white/70 bg-black/50 px-1 rounded">
+                            <span className="text-xxxs font-mono text-white/70 bg-black/50 px-1 rounded">
                                 LAT: {engram.location_lat_long || "UNKNOWN"}
                             </span>
                         </div>
@@ -106,15 +105,15 @@ export default function EngramModal({engram, onClose}) {
                         <p className="text-xs text-text-dim font-mono leading-relaxed border-l-2 border-white/10 pl-3">
                             {engram.desc || "Data corrupted. Semantic reconstruction required."}
                         </p>
-                        <p className="text-[10px] text-primary/60 font-mono mt-2">
+                        <p className="text-xxs text-primary/60 font-mono mt-2">
                             // DANGER_LEVEL: {engram.rarity ? engram.rarity.toUpperCase() : "N/A"}
                         </p>
                     </div>
 
                     {/* 底部操作区 */}
-                    <div className="pt-4 mt-2 border-t border-dashed border-white/10 flex gap-3">
+                    <div className="pt-4 mt-2 border-t border-dashed border-white/10 flex gap-8">
                         <button
-                            className="flex-1 py-3 bg-primary/20 hover:bg-primary border border-primary/50 hover:border-primary text-primary hover:text-white text-xs font-bold tracking-widest transition-all duration-200 group flex items-center justify-center gap-2"
+                            className="btn-base btn-primary flex-1 py-3 group"
                             onClick={handleDeepDive}
                         >
                             <span className="font-icon text-sm">manage_search</span>
@@ -122,7 +121,8 @@ export default function EngramModal({engram, onClose}) {
                         </button>
 
                         <button
-                            className="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold transition-all flex items-center justify-center">
+                            className="btn-base btn-secondary px-4 py-3"
+                        >
                             <span className="font-icon">share</span>
                         </button>
                     </div>

@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../components/ui/BottomNav.jsx";
 import {useEffect} from "react";
+import LayoutEffects from "../components/layout/LayoutEffects";
 
 export default function SleepMonitor() {
     const navigate = useNavigate();
@@ -12,35 +13,23 @@ export default function SleepMonitor() {
 
     return (
         <div
-            className="relative min-h-screen flex flex-col w-full max-w-md mx-auto shadow-2xl overflow-hidden bg-background-dark text-white"
-        >
-            {/* 全局特效：保留项目统一的噪点+扫描线（原始 HTML 已有扫描线，这里叠加不冲突，保持风格统一） */}
-            <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none z-0 mix-blend-overlay"/>
-            <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none z-0"/>
-
-            {/* 原始 HTML 核心内容（完全保留，未做任何样式/结构修改） */}
+            className="layout-page layout-frame-light shadow-2xl border-x border-gray-800 overflow-hidden bg-background-dark text-white">
+            <LayoutEffects noise="soft" scanlines grid vignette/>
             <div className="relative z-10 flex flex-col flex-1">
                 <div className="relative flex h-full min-h-screen w-full flex-col bg-black overflow-hidden">
-                    <div
-                        className="absolute inset-0 z-50 pointer-events-none mix-blend-overlay opacity-20 scanline-overlay bg-scanlines"></div>
-                    <div
-                        className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_50%,rgba(255,0,85,0.15)_100%)] z-10"></div>
 
-                    {/* 顶部导航栏（原始样式） */}
-                    <div
-                        className="relative z-20 flex items-center justify-between px-6 pt-12 pb-4 border-b border-white/10 bg-black/80 backdrop-blur-sm">
+                    {/* 顶部导航栏（统一 TopBar） */}
+                    <div className="relative z-20 header-bar px-6 pt-12 pb-4">
                         <div className="flex items-center gap-3">
                             <span className="material-symbols-outlined text-terminal-green animate-pulse"
                                   style={{fontSize: '20px'}}>terminal</span>
                             <div className="flex flex-col">
-                                <span
-                                    className="text-[10px] tracking-[0.2em] text-gray-500 uppercase leading-none mb-1">系统</span>
+                                <span className="header-subtitle mb-1">系统</span>
                                 <h2 className="text-sm font-bold tracking-wider text-white">校准模式</h2>
                             </div>
                         </div>
                         <div className="flex flex-col items-end">
-                            <span
-                                className="text-[10px] tracking-[0.2em] text-gray-500 uppercase leading-none mb-1">实验对象</span>
+                            <span className="header-subtitle mb-1">实验对象</span>
                             <p className="text-primary text-sm font-bold tracking-widest font-mono">2024-X</p>
                         </div>
                     </div>
@@ -53,7 +42,7 @@ export default function SleepMonitor() {
                             <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary"></div>
                             <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary"></div>
                             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary"></div>
-                            <p className="text-terminal-green text-xs font-mono tracking-widest mb-2 opacity-70">
+                            <p className="text-terminal-green text-xxs font-mono tracking-widest mb-2 opacity-70">
                                 &gt;&gt; 进程日志启动
                             </p>
                             <h1 className="text-white text-xl md:text-2xl font-bold leading-tight tracking-tight uppercase glitch-text mb-2">
@@ -69,7 +58,7 @@ export default function SleepMonitor() {
                     <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full px-4 py-8">
                         <div className="w-full max-w-lg relative">
                             <div className="flex justify-between items-end mb-2 px-2">
-                                <p className="text-white/60 text-[10px] tracking-[0.2em] uppercase">脑波示波器</p>
+                                <p className="text-white/60 text-xxs tracking-[0.2em] uppercase">脑波示波器</p>
                                 <div className="flex items-center gap-2">
                                     <span className="w-2 h-2 rounded-full bg-terminal-green animate-pulse"></span>
                                     <p className="text-terminal-green text-xs font-bold tracking-wider">稳定快速眼动期</p>
@@ -109,7 +98,7 @@ export default function SleepMonitor() {
                                 <div className="absolute top-1/2 left-0 w-full h-px bg-white/10"></div>
                             </div>
                             <div
-                                className="flex justify-between items-start mt-2 px-2 font-mono text-[10px] text-gray-500">
+                                className="flex justify-between items-start mt-2 px-2 font-mono text-xxs text-gray-500">
                                 <span>-00:05:00</span>
                                 <span className="text-primary font-bold">异常风险：低</span>
                                 <span>现在</span>
@@ -122,14 +111,12 @@ export default function SleepMonitor() {
                         <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
                             <div
                                 className="bg-white/5 border border-white/10 p-3 rounded-sm flex flex-col items-center justify-center">
-                                <span
-                                    className="text-[10px] uppercase text-gray-400 tracking-wider mb-1">环境噪音</span>
+                                <span className="text-xxs uppercase text-gray-400 tracking-wider mb-1">环境噪音</span>
                                 <p className="text-white font-mono font-bold text-lg">-40dB</p>
                             </div>
                             <div
                                 className="bg-white/5 border border-white/10 p-3 rounded-sm flex flex-col items-center justify-center">
-                                <span
-                                    className="text-[10px] uppercase text-gray-400 tracking-wider mb-1">主观时长</span>
+                                <span className="text-xxs uppercase text-gray-400 tracking-wider mb-1">主观时长</span>
                                 <p className="text-white font-mono font-bold text-lg">04:20:00</p>
                             </div>
                         </div>
@@ -155,7 +142,7 @@ export default function SleepMonitor() {
                                            className="absolute inset-0 opacity-0 w-full h-full cursor-col-resize z-20"
                                            max="100" min="0" type="range" value="0"/>
                                 </div>
-                                <p className="text-[10px] text-gray-600 uppercase tracking-widest">紧急终止程序</p>
+                                <p className="text-xxs text-gray-600 uppercase tracking-widest">紧急终止程序</p>
                             </div>
                         </div>
                     </div>

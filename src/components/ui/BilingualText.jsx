@@ -8,7 +8,7 @@ export default function BilingualText({cn, en, className = ""}) {
     return (
         <div className={`flex items-baseline gap-2 ${className}`}>
             <span className="font-bold tracking-wider">{cn}</span>
-            <span className="text-[10px] font-mono text-primary font-bold opacity-80 uppercase">
+            <span className="text-xxs font-mono text-primary font-bold opacity-80 uppercase">
                 // {en}
             </span>
         </div>

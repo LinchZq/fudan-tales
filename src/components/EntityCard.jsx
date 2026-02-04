@@ -8,12 +8,11 @@ export default function EntityCard({
                                    }) {
     const isAnalyzing = status === "analyzing";
 
+    const badgeVariantClass = isAnalyzing ? "badge-warning" : "badge-primary";
     const badgeDotClass = isAnalyzing ? "bg-yellow-500" : "bg-primary";
-    const badgeTextClass = isAnalyzing ? "text-yellow-500" : "text-primary";
-    const badgeBorderClass = isAnalyzing ? "border-yellow-500/30" : "border-primary/30";
     const badgeLabel = isAnalyzing ? "解析中" : "已收容";
 
-    const progressBarClass = isAnalyzing ? "bg-yellow-500" : "bg-primary";
+    const progressBarClass = isAnalyzing ? "progress-bar-warning" : "progress-bar";
 
     const clamped = Math.max(0, Math.min(1, progress));
     const widthPct = `${Math.round(clamped * 100)}%`;
@@ -28,17 +27,13 @@ export default function EntityCard({
                 if (e.key === "Enter") onClick();
             }}
             className={[
-                "glass-card rounded-lg overflow-hidden group relative card-hover-glow",
+                "card-base card-glass card-hover-glow group",
                 onClick ? "cursor-pointer" : "",
             ].join(" ")}>
             <div
-                className={[
-                    "absolute top-2 right-2 z-20 flex items-center gap-1 bg-black/60 backdrop-blur px-1.5 py-0.5 rounded border",
-                    badgeBorderClass,
-                ].join(" ")}
-            >
+                className={["absolute top-2 right-2 z-20 flex items-center gap-1 bg-black/60 backdrop-blur", "badge", badgeVariantClass].join(" ")}>
                 <div className={["w-1.5 h-1.5 rounded-full animate-pulse", badgeDotClass].join(" ")}/>
-                <span className={["text-[9px] font-bold", badgeTextClass].join(" ")}>{badgeLabel}</span>
+                <span className="text-[9px] font-bold">{badgeLabel}</span>
             </div>
 
             <div
@@ -55,8 +50,8 @@ export default function EntityCard({
                 <p className="text-[10px] text-primary font-mono mb-0.5 tracking-wider">{code}</p>
                 <h3 className="text-white text-sm font-bold leading-tight">{title}</h3>
 
-                <div className="h-0.5 w-full bg-white/10 mt-2 rounded-full overflow-hidden">
-                    <div className={["h-full", progressBarClass].join(" ")} style={{width: widthPct}}/>
+                <div className="progress-track progress-track-sm mt-2">
+                    <div className={["progress-bar", progressBarClass].join(" ")} style={{width: widthPct}}/>
                 </div>
             </div>
         </div>

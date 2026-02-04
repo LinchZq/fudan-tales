@@ -27,10 +27,10 @@ export default function EngramList({engrams, onSelect}) {
                         key={engram.id}
                         onClick={() => !isLocked && !isParsing && onSelect(engram)}
                         disabled={isLocked || isParsing}
-                        className={`relative text-left rounded-xl p-3 border flex flex-col gap-2 transition-all duration-300 
+                        className={`relative text-left card-base rounded-xl p-3 flex flex-col gap-2 
                             ${isLocked
                             ? "border-white/5 bg-transparent blur-cipher cursor-not-allowed"
-                            : `bg-background-dark/80 ${styles} hover:scale-[1.02] active:scale-95 cursor-pointer group`
+                            : `card-glass card-interactive ${styles} cursor-pointer group`
                         }
                         `}
                     >
@@ -40,8 +40,7 @@ export default function EngramList({engrams, onSelect}) {
                                 {isLocked ? 'lock' : engram.icon}
                             </span>
                             {!isLocked && (
-                                <span
-                                    className="text-[8px] uppercase border border-current px-1.5 py-0.5 rounded opacity-70 font-mono">
+                                <span className="badge badge-muted opacity-70">
                                     {engram.rarity}
                                 </span>
                             )}
@@ -53,19 +52,18 @@ export default function EngramList({engrams, onSelect}) {
                             </h3>
 
                             {isParsing ? (
-                                // 进度条状态
                                 <div className="mt-1 w-full">
-                                    <div className="flex justify-between text-[8px] text-text-dim mb-1 font-mono">
+                                    <div className="flex justify-between text-nano text-text-dim mb-1 font-mono">
                                         <span>解析中...</span>
                                         <span>{engram.progress}%</span>
                                     </div>
-                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                                        <div className="h-full bg-current animate-pulse"
+                                    <div className="progress-track progress-track-sm">
+                                        <div className="progress-bar animate-pulse"
                                              style={{width: `${engram.progress}%`}}/>
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-[9px] text-text-dim leading-tight h-8 overflow-hidden line-clamp-2">
+                                <p className="text-xxxs text-text-dim leading-tight h-8 overflow-hidden line-clamp-2">
                                     {isLocked ? "Wait for sync..." : engram.desc}
                                 </p>
                             )}
@@ -78,7 +76,7 @@ export default function EngramList({engrams, onSelect}) {
 
                         {/* 装饰性背景网格 */}
                         {!isLocked && (
-                            <div className="absolute inset-0 bg-scanlines opacity-10 rounded-xl pointer-events-none"/>
+                            <div className="absolute inset-0 effect-scanlines-soft rounded-xl"/>
                         )}
                     </button>
                 );

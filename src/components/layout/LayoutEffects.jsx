@@ -1,0 +1,19 @@
+export default function LayoutEffects({
+                                          noise = "soft",
+                                          scanlines = true,
+                                          glow = false,
+                                          vignette = false,
+                                          grid = false,
+                                      }) {
+    const noiseOpacity = noise === "strong" ? "opacity-30" : "opacity-20";
+
+    return (
+        <>
+            <div className={`absolute inset-0 effect-noise ${noiseOpacity}`}/>
+            {scanlines && <div className="absolute inset-0 effect-scanlines"/>}
+            {glow && <div className="absolute top-0 right-0 w-64 h-64 effect-glow"/>}
+            {vignette && <div className="absolute inset-0 effect-vignette"/>}
+            {grid && <div className="fixed inset-0 effect-grid"/>}
+        </>
+    );
+}

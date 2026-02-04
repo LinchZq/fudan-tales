@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../components/ui/BottomNav.jsx";
 import EngramList from "../components/EngramList";
 import EngramModal from "../components/EngramModal";
 import BilingualText from "../components/ui/BilingualText";
 import {currentUser, syncLog, engrams} from "../data/user-data.js";
+import LayoutEffects from "../components/layout/LayoutEffects";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Profile() {
 
     // --- Effects ---
     useEffect(() => {
+        window.scrollTo(0, 0);
         document.title = "神经档案 | ARCHIVE";
         // 模拟 CRT 开机延迟效果
         const timer = setTimeout(() => setBooted(true), 10);
@@ -41,8 +43,7 @@ export default function Profile() {
     };
 
     return (
-        <div
-            className="relative min-h-screen flex flex-col w-full max-w-md mx-auto bg-background-dark overflow-hidden font-mono text-white selection:bg-primary selection:text-white">
+        <div className="layout-page layout-frame font-mono text-white selection:bg-primary selection:text-white">
 
             {/* --- 全局模态框 (Portal/Overlay) --- */}
             {/* 当 selectedEngram 存在时，Modal 会渲染并覆盖在页面上方 */}
@@ -52,12 +53,11 @@ export default function Profile() {
             />
 
             {/* --- 环境背景特效 --- */}
-            <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none z-0 mix-blend-overlay"/>
-            <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none z-0"/>
+            <LayoutEffects noise="soft" scanlines/>
 
             {/* --- Header: ID CARD --- */}
             <header
-                className={`relative z-10 p-5 pt-8 transition-all duration-1000 ${booted ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
+                className={`relative z-10 p-5 pt-8 transition-all duration-300 ${booted ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
                 <div className="glass-card rounded-xl p-5 border-l-4 border-l-primary overflow-hidden relative group">
                     {/* 装饰大字背景 */}
                     <div
@@ -89,12 +89,10 @@ export default function Profile() {
                             </div>
 
                             <div className="pt-2 border-t border-dashed border-white/10 mt-2">
-                                <p className="text-[10px] text-text-dim">{currentUser.department}</p>
+                                <p className="text-xxs text-text-dim">{currentUser.department}</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <span
-                                        className="px-1.5 py-0.5 bg-white/10 text-[9px] rounded border border-white/10">Lv.{currentUser.level}</span>
-                                    <span
-                                        className="px-1.5 py-0.5 bg-primary/20 text-primary text-[9px] rounded border border-primary/30">CLASS-B</span>
+                                    <span className="badge badge-muted">Lv.{currentUser.level}</span>
+                                    <span className="badge badge-primary">CLASS-B</span>
                                 </div>
                             </div>
                         </div>
@@ -102,14 +100,14 @@ export default function Profile() {
 
                     {/* Sanity Bar */}
                     <div className="mt-5 relative z-10">
-                        <div className="flex justify-between text-[10px] text-text-dim mb-1 font-bold">
+                        <div className="flex justify-between text-xxs text-text-dim mb-1 font-bold">
                             <BilingualText cn="理智值" en="SANITY_STABILITY"/>
                             <span
                                 className={currentUser.sanity < 50 ? "text-red-500" : "text-teal-400"}>{currentUser.sanity}%</span>
                         </div>
-                        <div className="h-2 w-full bg-black/50 rounded-full overflow-hidden border border-white/10">
+                        <div className="progress-track progress-track-md bg-black/50 border border-white/10">
                             <div
-                                className="h-full bg-gradient-to-r from-primary-dark to-primary shadow-[0_0_15px_#ff0055]"
+                                className="progress-bar progress-bar-glow bg-gradient-to-r from-primary-dark to-primary"
                                 style={{width: `${currentUser.sanity}%`, transition: 'width 1s ease-out'}}
                             />
                         </div>
@@ -130,9 +128,9 @@ export default function Profile() {
                         ].map((item, i) => (
                             <div key={i}
                                  className="glass-card relative p-3 rounded border border-white/5 flex flex-col justify-between overflow-hidden card-hover-glow group">
-                                <div className="absolute inset-0 scanline-overlay opacity-30 pointer-events-none"/>
+                                <div className="absolute inset-0 effect-scanlines-soft"/>
                                 <div
-                                    className="relative z-10 text-[9px] text-text-dim font-bold tracking-wider flex flex-col leading-tight">
+                                    className="relative z-10 text-nano text-text-dim font-bold tracking-wider flex flex-col leading-tight">
                                     <span>{item.cn}</span>
                                     <span className="scale-75 origin-top-left opacity-50">// {item.en}</span>
                                 </div>
@@ -142,7 +140,7 @@ export default function Profile() {
                                       {item.data.val}
                                     </span>
                                     <span
-                                        className={`text-[8px] px-1 rounded ${item.data.status === 'opt' ? 'text-teal-400 bg-teal-400/10' : 'text-text-dim bg-white/5'}`}>
+                                        className={`text-nano px-1 rounded ${item.data.status === 'opt' ? 'text-teal-400 bg-teal-400/10' : 'text-text-dim bg-white/5'}`}>
                                       {item.data.trend}
                                     </span>
                                 </div>
@@ -159,12 +157,12 @@ export default function Profile() {
                             <span className="font-icon text-primary text-sm">ssid_chart</span>
                             <BilingualText cn="校准记录" en="CALIBRATION LOG" className="text-xs"/>
                         </div>
-                        <span className="text-[9px] text-text-dim">TOTAL: {currentUser.totalSyncHours}h</span>
+                        <span className="text-xxxs text-text-dim">TOTAL: {currentUser.totalSyncHours}h</span>
                     </div>
 
                     <div
                         className="glass-card relative p-4 rounded-xl border border-white/5 bg-black/40 overflow-hidden">
-                        <div className="absolute inset-0 scanline-overlay opacity-20 pointer-events-none"/>
+                        <div className="absolute inset-0 effect-scanlines-soft opacity-20"/>
                         <div className="relative z-10 flex justify-between items-end h-36 gap-2">
                             {syncLog.map((log, idx) => {
                                 const heightPercent = Math.min((log.hours / 10) * 100, 100);
@@ -184,7 +182,7 @@ export default function Profile() {
                                         <div
                                             className="w-full h-full flex items-end relative rounded-sm bg-white/5 overflow-hidden">
                                             <div
-                                                className={`w-full rounded-sm transition-all duration-300 ${barColor} ${booted ? 'bar-grow' : ''}`}
+                                                className={`w-full rounded-sm transition-all duration-500 ${barColor} ${booted ? 'bar-grow' : ''}`}
                                                 style={{height: `${heightPercent}%`, animationDelay: `${idx * 50}ms`}}
                                             />
                                         </div>
@@ -198,7 +196,7 @@ export default function Profile() {
                         </div>
                         {/* 选中时的详情文本 */}
                         <div
-                            className="mt-3 pt-2 border-t border-white/10 flex justify-between text-[9px] min-h-[20px]">
+                            className="mt-3 pt-2 border-t border-white/10 flex justify-between text-xxxs min-h-[20px]">
                             {activeBar !== null ? (
                                 <>
                                     <span className="text-white">STATUS: {syncLog[activeBar].status}</span>
@@ -213,7 +211,7 @@ export default function Profile() {
                 </section>
 
                 {/* --- Section 3: Engrams (Refactored) --- */}
-                <section className={`transition-all duration-1000 delay-300 ${booted ? 'opacity-100' : 'opacity-0'}`}>
+                <section className={`transition-all duration-500 delay-300 ${booted ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center gap-2 mb-3 border-b border-white/10 pb-2">
                         <span className="font-icon text-primary text-sm">extension</span>
                         <BilingualText cn="记忆印痕" en="MEMORY ENGRAMS" className="text-xs"/>
